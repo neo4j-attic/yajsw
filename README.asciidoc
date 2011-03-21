@@ -1,5 +1,5 @@
 Neo4j YAJSW
 ===========
 
-Fork of [YAJSW](http://sourceforge.net/projects/yajsw/).
+Fork of http://sourceforge.net/projects/yajsw/[YAJSW].
 
