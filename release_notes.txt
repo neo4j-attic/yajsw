@@ -1,0 +1,6 @@
+yajsw-beta-10.6
+
+    Bug: property should be wrapper.logfile.format instead of wrapper.logf.format
+    Bug: class cast exception when wrapper.java.app.jar is set
+    Bug: yajsw exception when using jrockit jvm.
+
