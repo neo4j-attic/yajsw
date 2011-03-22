@@ -127,7 +127,7 @@ public class WrapperExe
 	static final String			PID					= "pid";
 
 	/** The Constant DEFAULT_FILE. */
-	static final String			DEFAULT_FILE		= "default configuration file";
+    static final String DEFAULT_FILE = "default conf file";
 
 	static WrappedService		_service			= null;
 
@@ -534,7 +534,6 @@ public class WrapperExe
 		// configure a HelpFormatter
         HelpFormatter hf = new HelpFormatter();
 		DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-		;
 
 		// configure a parser
 		Parser p = new Parser();
@@ -580,99 +579,118 @@ public class WrapperExe
 	 */
 	private static void buildOptions()
 	{
-		DefaultOptionBuilder oBuilder = new DefaultOptionBuilder("-", "--", true);
-		ArgumentBuilder aBuilder = new ArgumentBuilder();
-		GroupBuilder gBuilder = new GroupBuilder();
+        DefaultOptionBuilder oBuilder = new DefaultOptionBuilder( "-", "--",
+                true );
+        ArgumentBuilder aBuilder = new ArgumentBuilder();
+        GroupBuilder gBuilder = new GroupBuilder();
 
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_C).withShortName("c").withLongName("console").withDescription(
-				"run as a Console application").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_T).withShortName("t").withLongName("start").withDescription(
-				"starT an NT service or Unix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_P).withShortName("p").withLongName("stop").withDescription(
-				"stoP a running NT service or Unix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_TX).withShortName("tx").withLongName("startx").withDescription(
-				"starT -internal a Posix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_PX).withShortName("px").withLongName("stopx").withDescription(
-				"stoP -internal- a running Posix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_I).withShortName("i").withLongName("install").withDescription(
-				"Install an NT service or Unix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_R).withShortName("r").withLongName("remove").withDescription(
-				"Remove an NT service or Unix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_Q).withShortName("q").withLongName("query").withDescription(
-				"Query the status of an NT service or Unix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_Y).withShortName("y").withLongName("tray").withDescription("Start System Tray Icon")
-				.create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_QS).withShortName("qs").withLongName("querysilent").withDescription(
-				"Silent Query the status of an NT service or Unix daemon").create());
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_QX).withShortName("qx").withLongName("queryposix").withDescription(
-				"Query the status of a posix daemon. Return status as exit code").create());
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_C ).withShortName(
+                "c" ).withLongName( "console" ).withDescription(
+                "run as a Console application" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_T ).withShortName(
+                "t" ).withLongName( "start" ).withDescription(
+                "starT an NT service or Unix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_P ).withShortName(
+                "p" ).withLongName( "stop" ).withDescription(
+                "stoP a running NT service or Unix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_TX ).withShortName(
+                "tx" ).withLongName( "startx" ).withDescription(
+                "starT -internal a Posix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_PX ).withShortName(
+                "px" ).withLongName( "stopx" ).withDescription(
+                "stoP -internal- a running Posix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_I ).withShortName(
+                "i" ).withLongName( "install" ).withDescription(
+                "Install an NT service or Unix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_R ).withShortName(
+                "r" ).withLongName( "remove" ).withDescription(
+                "Remove an NT service or Unix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_Q ).withShortName(
+                "q" ).withLongName( "query" ).withDescription(
+                "Query the status of an NT service or Unix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_Y ).withShortName(
+                "y" ).withLongName( "tray" ).withDescription(
+                "Start System Tray Icon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_QS ).withShortName(
+                "qs" ).withLongName( "querysilent" ).withDescription(
+                "Silent Query the status of an NT service or Unix daemon" ).create() );
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_QX ).withShortName(
+                "qx" ).withLongName( "queryposix" ).withDescription(
+                "Query the status of a posix daemon. Return status as exit code" ).create() );
 
-		Argument pid = aBuilder.reset().withName(PID).withDescription("PID of process to reconnect to").withMinimum(1).withMaximum(1).withValidator(
-				NumberValidator.getIntegerInstance()).create();
+        Argument pid = aBuilder.reset().withName( PID ).withDescription(
+                "PID of process to reconnect to" ).withMinimum( 1 ).withMaximum(
+                1 ).withValidator( NumberValidator.getIntegerInstance() ).create();
 
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_N).withShortName("n").withLongName("reconnect").withDescription(
-				"recoNnect to existing application").withArgument(pid).create());
+        gBuilder.withOption( oBuilder.reset().withId( OPTION_N ).withShortName(
+                "n" ).withLongName( "reconnect" ).withDescription(
+                "recoNnect to existing application" ).withArgument( pid ).create() );
 
-		Argument pid2 = aBuilder.reset().withName(PID).withDescription("PID of process to reconnect to").withMinimum(1).withMaximum(1).withValidator(
-				NumberValidator.getIntegerInstance()).create();
+		Argument pid2 = aBuilder.reset().withName( PID ).withDescription(
+                "PID of process to reconnect to" ).withMinimum( 1 ).withMaximum(
+                1 ).withValidator( NumberValidator.getIntegerInstance() ).create();
 
-		Argument defaultFile = aBuilder.reset().withName(DEFAULT_FILE).withDescription("Default Configuration File").withMinimum(0).withMaximum(1)
-				.withValidator(VFSFileValidator.getExistingFileInstance().setBase(".")).create();
-		/*
-		 * GroupBuilder childGbuilder = new GroupBuilder(); DefaultOptionBuilder
-		 * childoObuilder = new DefaultOptionBuilder("-", "--", true);
-		 * 
-		 * childGbuilder.withName(DEFAULT_FILE).withMinimum(0).withMaximum(1).
-		 * withOption(
-		 * childoObuilder.withId(OPTION_D).withArgument(defaultFile).
-		 * withShortName("d").withLongName("defaultConf").withDescription(
-		 * "Default Configuration File").create());
-		 * 
-		 * 
-		 * 
-		 * gBuilder.withOption(oBuilder.reset().withId(OPTION_G).withShortName("g"
-		 * ).withLongName("genconf").withDescription(
-		 * "Generate configuration file from pid"
-		 * ).withArgument(pid2).withChildren(childGbuilder.create()).create());
-		 */
+		Argument defaultFile = aBuilder.reset().withName( DEFAULT_FILE ).withDescription(
+                "Default Configuration File" ).withMinimum( 0 ).withMaximum( 1 ).withValidator(
+                VFSFileValidator.getExistingFileInstance().setBase( "." ) ).create();
+        /*
+         * GroupBuilder childGbuilder = new GroupBuilder(); DefaultOptionBuilder
+         * childoObuilder = new DefaultOptionBuilder("-", "--", true);
+         * 
+         * childGbuilder.withName(DEFAULT_FILE).withMinimum(0).withMaximum(1).
+         * withOption(
+         * childoObuilder.withId(OPTION_D).withArgument(defaultFile).
+         * withShortName("d").withLongName("defaultConf").withDescription(
+         * "Default Configuration File").create());
+         * 
+         * 
+         * 
+         * gBuilder.withOption(oBuilder.reset().withId(OPTION_G).withShortName("g"
+         * ).withLongName("genconf").withDescription(
+         * "Generate configuration file from pid"
+         * ).withArgument(pid2).withChildren(childGbuilder.create()).create());
+         */
 
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_D).withShortName("d").withLongName("defaultConf").withDescription(
-				"Default Configuration File").withArgument(defaultFile).create());
+		gBuilder.withOption( oBuilder.reset().withId( OPTION_D ).withShortName(
+                "d" ).withLongName( "defaultConf" ).withDescription(
+                "Default Configuration File" ).withArgument( defaultFile ).create() );
 
-		gBuilder.withOption(oBuilder.reset().withId(OPTION_G).withShortName("g").withLongName("genconf").withDescription(
-				"Generate configuration file from pid").withArgument(pid2).create());
+		gBuilder.withOption( oBuilder.reset().withId( OPTION_G ).withShortName(
+                "g" ).withLongName( "genconf" ).withDescription(
+                "Generate configuration file from pid" ).withArgument( pid2 ).create() );
 
-		FileValidator fValidator = VFSFileValidator.getExistingFileInstance().setBase(".");
-		fValidator.setFile(false);
-		// fValidator.setReadable(true);
-		gBuilder.withOption(aBuilder.reset().withName(CONF_FILE).withDescription("is the wrapper.conf to use.  Name must be absolute or relative")
-				.withMinimum(0).withMaximum(10).create());
+		FileValidator fValidator = VFSFileValidator.getExistingFileInstance().setBase(
+                "." );
+        fValidator.setFile( false );
+        // fValidator.setReadable(true);
+        gBuilder.withOption( aBuilder.withName( CONF_FILE ).withDescription(
+                "is the wrapper.conf to use.  Name must be absolute or relative" ).withMinimum(
+                0 ).create() );
 
 		Validator pValidator = new Validator()
-		{
+        {
 
 			@Override
-            public void validate(List values) throws InvalidArgumentException
-			{
-				for (Iterator it = values.iterator(); it.hasNext();)
-				{
-					String p = (String) it.next();
-					if (!Pattern.matches("wrapper\\..*=.*", p))
-					{
-						throw new InvalidArgumentException(p);
-					}
-				}
+            public void validate( List values ) throws InvalidArgumentException
+            {
+                for ( Iterator it = values.iterator(); it.hasNext(); )
+                {
+                    String p = (String) it.next();
+                    if ( !Pattern.matches( "wrapper\\..*=.*", p ) )
+                    {
+                        throw new InvalidArgumentException( p );
+                    }
+                }
 
 			}
 
 		};
-		gBuilder.withOption(aBuilder.reset().withName(PROPERTIES).withDescription(
-				"are configuration name-value pairs which override values. For example: wrapper.debug=true").withMinimum(0).withValidator(pValidator)
-				.create());
+        gBuilder.withOption( aBuilder.reset().withName( PROPERTIES ).withDescription(
+                "are configuration name-value pairs which override values. For example: wrapper.debug=true" ).withMinimum(
+                0 ).withValidator( pValidator ).create() );
 
-		gBuilder.withMaximum(3);
-		group = gBuilder.create();
-
+        gBuilder.withMaximum( 3 );
+        group = gBuilder.create();
 	}
 
 }
