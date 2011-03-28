@@ -1686,7 +1686,11 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	{
 		for (Thread hook : _shutdownHooks)
 		{
+            try {
 			Runtime.getRuntime().removeShutdownHook(hook);
+            } catch (IllegalStateException ise) {
+                ; // ABK: ignore for now. Removing shutdown hooks during shutdown hooks seems wrong. Evaluate
+            }
 		}
 		_shutdownHooks.clear();
 	}
