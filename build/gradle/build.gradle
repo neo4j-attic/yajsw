@@ -3,7 +3,7 @@ task createWrapper(type: Wrapper) {
 }
 
 projectHome = '../..'
-defaultTasks 'clean', 'build'
+defaultTasks 'clean', 'build', 'copyTask'
 
 // common settings for all sub-projects
 subprojects {
