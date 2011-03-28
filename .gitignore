@@ -3,4 +3,7 @@ bin/
 .classpath
 .project
 build/gradle/.gradle
+*.class
+*.iml
+.idea/
 
