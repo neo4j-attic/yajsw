@@ -41,5 +41,10 @@ version = ''
 
 }
 
+task copyTask(type: Copy) {
+    from 'wrapper/build/libs/'
+    from 'wrapper-app/build/libs/'
+    into projectHome
+}
 
 
