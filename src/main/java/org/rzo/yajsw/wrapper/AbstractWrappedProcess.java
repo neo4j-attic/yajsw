@@ -1679,7 +1679,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		if (_state == STATE_USER_STOP)
 			if (!_exiting)
 				setState(STATE_IDLE);
-		removeShutdownHooks();
+//		removeShutdownHooks(); // ABK: do this or not? seems illadvised to remove shutdown hooks during shutdown
 	}
 
 	private void removeShutdownHooks()
@@ -1687,7 +1687,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		for (Thread hook : _shutdownHooks)
 		{
             try {
-			Runtime.getRuntime().removeShutdownHook(hook);
+			    Runtime.getRuntime().removeShutdownHook(hook);
             } catch (IllegalStateException ise) {
                 ; // ABK: ignore for now. Removing shutdown hooks during shutdown hooks seems wrong. Evaluate
             }
