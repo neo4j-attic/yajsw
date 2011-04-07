@@ -204,8 +204,8 @@ public class FileUtils
 		 * { File f = thisFiles[i]; if (f.exists()) result.add(f); else
 		 * log.warning("classpath file "+f.getName() +"not found"); }
 		 */
-		if (result.size() == 0)
-			log.warning("No files found for " + pattern);
+        // if (result.size() == 0)
+        // log.warning("No files found for " + pattern);
 		return result;
 	}
 

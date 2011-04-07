@@ -177,7 +177,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Inits the.
 	 */
-	public void init()
+	@Override
+    public void init()
 	{
 		Map utils = new HashMap();
 		utils.put("util", new Utils(this));
@@ -305,7 +306,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 				_cluster = clazz.newInstance();
 				_clusterListener = new ClusterNodeChangeListener()
 				{
-					public void nodeChanged()
+					@Override
+                    public void nodeChanged()
 					{
 						script.execute();
 					}
@@ -348,7 +350,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		{
 			Thread hook = new Thread()
 			{
-				public void run()
+				@Override
+                public void run()
 				{
 					getWrapperLogger().info("Shutting down Wrapper");
 					if (!_exiting)
@@ -397,7 +400,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 					addStateChangeListener(iState, new StateChangeListener()
 					{
 
-						public void stateChange(int newState, int oldState)
+						@Override
+                        public void stateChange(int newState, int oldState)
 						{
 							script.executeWithTimeout();
 						}
@@ -409,7 +413,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		if (_haltWrapperOnApp)
 			addStateChangeListener(STATE_IDLE, new StateChangeListener()
 			{
-				public void stateChange(int newState, int oldState)
+				@Override
+                public void stateChange(int newState, int oldState)
 				{
 					if (_exiting)
 						return;
@@ -417,7 +422,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 					executor.execute(new Runnable()
 					{
 
-						public void run()
+						@Override
+                        public void run()
 						{
 							// if this is a service: do not exit here so that we
 							// can inform the service controller
@@ -495,7 +501,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 					JMXAuthenticator authenticator = new JMXAuthenticator()
 					{
 
-						public Subject authenticate(Object credentials)
+						@Override
+                        public Subject authenticate(Object credentials)
 						{
 							if (!(credentials instanceof String[]))
 								throw new SecurityException("Bad credentials");
@@ -744,14 +751,16 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Start by timer.
 	 */
-	public synchronized void startByTimer()
+	@Override
+    public synchronized void startByTimer()
 	{
 		_startByTimer = true;
 		start();
 		_startByTimer = false;
 	}
 
-	public synchronized void start()
+	@Override
+    public synchronized void start()
 	{
 		if (!_init)
 			init();
@@ -899,6 +908,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 				setState(STATE_RUNNING);
 				updateAppLoggerName();
 			}
+            writeToFile( getJavaProcessFileName(), "STARTED" );
 		}
 		else
 		{
@@ -911,7 +921,42 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 
 	}
 
-	abstract void configController();
+    private void writeToFile( File file, String string )
+    {
+        FileWriter writer = null;
+        try
+        {
+            writer = new FileWriter( file );
+            writer.write( string );
+        }
+        catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+        finally
+        {
+            if ( writer != null )
+            {
+                try
+                {
+                    writer.close();
+                }
+                catch ( IOException e )
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    abstract void configController();
+
+    private File getJavaProcessFileName()
+    {
+        String pidFileName = _config.getString( "wrapper.pidfile" );
+        File pidFile = new File( pidFileName );
+        return new File( pidFile.getParentFile(), "neo4j-server.java.status" );
+    }
 
 	abstract void postStart();
 
@@ -1047,7 +1092,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		// per default java console handler uses err -> use out instead
 		_consoleHandler = new ConsoleHandler()
 		{
-			protected synchronized void setOutputStream(OutputStream out) throws SecurityException
+			@Override
+            protected synchronized void setOutputStream(OutputStream out) throws SecurityException
 			{
 				super.setOutputStream(System.out);
 			}
@@ -1137,8 +1183,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		}
 		if (getFileHandler() != null)
 			_appLogger.addHandler(getFileHandler());
-		if (getConsoleHandler() != null)
-			_appLogger.addHandler(getConsoleHandler());
+        // if (getConsoleHandler() != null)
+        // _appLogger.addHandler(getConsoleHandler());
 		_appLogger.setLevel(Level.ALL);
 		return _appLogger;
 	}
@@ -1495,7 +1541,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		else if (!(c instanceof Collection) && value instanceof Collection)
 		{
 			ArrayList l = new ArrayList();
-			l.add((Collection) c);
+			l.add(c);
 			l.addAll((Collection) value);
 			actionsMap.put(key, l);
 		}
@@ -1577,12 +1623,14 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 
 		return new TriggerAction()
 		{
-			public Object execute(final String line)
+			@Override
+            public Object execute(final String line)
 			{
 				scriptExecutor.execute(new Runnable()
 				{
 
-					public void run()
+					@Override
+                    public void run()
 					{
 						AbstractWrappedProcess.this.getWrapperLogger().info("start script " + s.getScript());
 						s.executeWithTimeout(new String(line));
@@ -1607,7 +1655,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		if ("RESTART".equals(value))
 			return new TriggerAction()
 			{
-				public Object execute(String line)
+				@Override
+                public Object execute(String line)
 				{
 					if (allowRestart())
 						restartInternal();
@@ -1619,7 +1668,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		else if ("SHUTDOWN".equals(value))
 			return new TriggerAction()
 			{
-				public Object execute(String line)
+				@Override
+                public Object execute(String line)
 				{
 					stop();
 					return null;
@@ -1632,7 +1682,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Stop timer.
 	 */
-	public synchronized void stopTimer()
+	@Override
+    public synchronized void stopTimer()
 	{
 		_timer.stop();
 	}
@@ -1642,7 +1693,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		_condition.stop();
 	}
 
-	public synchronized void stop()
+	@Override
+    public synchronized void stop()
 	{
 		_stopRequested = true;
 		_startRequested = false;
@@ -1674,6 +1726,11 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 
 		stopController(shutdownWaitTime);
 		stopOsProcess(shutdownWaitTime);
+
+        if ( !getJavaProcessFileName().delete() )
+        {
+            getJavaProcessFileName().deleteOnExit();
+        }
 
 		_appStopped = new Date();
 		if (_state == STATE_USER_STOP)
@@ -1781,7 +1838,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Restart.
 	 */
-	public void restart()
+	@Override
+    public void restart()
 	{
 		if (_state != STATE_RUNNING)
 			return;
@@ -1793,7 +1851,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 */
 	boolean	_timerRestart	= false;
 
-	public void restartByTimer()
+	@Override
+    public void restartByTimer()
 	{
 		if (_timerRestart)
 			return;
@@ -1830,7 +1889,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * @param debug
 	 *            the new debug
 	 */
-	public void setDebug(boolean debug)
+	@Override
+    public void setDebug(boolean debug)
 	{
 		_debug = debug;
 	}
@@ -1840,7 +1900,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * 
 	 * @return the pid
 	 */
-	public int getAppPid()
+	@Override
+    public int getAppPid()
 	{
 		if (_osProcess != null)
 			return _osProcess.getPid();
@@ -1867,7 +1928,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 				out.close();
 				Thread hook = new Thread()
 				{
-					public void run()
+					@Override
+                    public void run()
 					{
 						removePidFile();
 					}
@@ -1997,7 +2059,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Wait for.
 	 */
-	public void waitFor()
+	@Override
+    public void waitFor()
 	{
 		waitFor(Long.MAX_VALUE);
 	}
@@ -2008,7 +2071,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * @param t
 	 *            the t
 	 */
-	public void waitFor(long t)
+	@Override
+    public void waitFor(long t)
 	{
 		if (_state == STATE_IDLE)
 			return;
@@ -2017,7 +2081,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		StateChangeListener listener = new StateChangeListener()
 		{
 
-			public void stateChange(int newState, int oldState)
+			@Override
+            public void stateChange(int newState, int oldState)
 			{
 				lock.lock();
 				isIdle.signal();
@@ -2046,12 +2111,14 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * 
 	 * @return the local configuration
 	 */
-	public Configuration getLocalConfiguration()
+	@Override
+    public Configuration getLocalConfiguration()
 	{
 		return _localConfiguration;
 	}
 
-	public void setLocalConfiguration(Configuration config)
+	@Override
+    public void setLocalConfiguration(Configuration config)
 	{
 		_localConfiguration = config;
 	}
@@ -2061,7 +2128,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * 
 	 * @return the exit code
 	 */
-	public int getExitCode()
+	@Override
+    public int getExitCode()
 	{
 		return _exitCode;
 	}
@@ -2071,7 +2139,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * 
 	 * @return the wrapper logger
 	 */
-	public Logger getWrapperLogger()
+	@Override
+    public Logger getWrapperLogger()
 	{
 		if (_wrapperLogger != null)
 			return _wrapperLogger;
@@ -2083,8 +2152,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			_controller.setLogger(_appLogger);
 		if (getFileHandler() != null)
 			_wrapperLogger.addHandler(getFileHandler());
-		if (getConsoleHandler() != null)
-			_wrapperLogger.addHandler(getConsoleHandler());
+        // if (getConsoleHandler() != null)
+        // _wrapperLogger.addHandler(getConsoleHandler());
 		return _wrapperLogger;
 	}
 
@@ -2094,7 +2163,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * @param useSystemProperties
 	 *            the new use system properties
 	 */
-	public void setUseSystemProperties(boolean useSystemProperties)
+	@Override
+    public void setUseSystemProperties(boolean useSystemProperties)
 	{
 		_useSystemProperties = useSystemProperties;
 	}
@@ -2112,7 +2182,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Start drain.
 	 */
-	public synchronized void startDrain()
+	@Override
+    public synchronized void startDrain()
 	{
 		if (_gobler_err != null)
 			_gobler_err.setDrain(true);
@@ -2124,7 +2195,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Stop drain.
 	 */
-	public synchronized void stopDrain()
+	@Override
+    public synchronized void stopDrain()
 	{
 		if (_gobler_err != null)
 			_gobler_err.setDrain(false);
@@ -2138,7 +2210,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	 * 
 	 * @return the string
 	 */
-	public String readDrainLine()
+	@Override
+    public String readDrainLine()
 	{
 		String result = null;
 		if (!_drainActive)
@@ -2169,7 +2242,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 
 	}
 
-	public int getState()
+	@Override
+    public int getState()
 	{
 		return _state;
 	}
@@ -2177,7 +2251,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 	/**
 	 * Restart internal.
 	 */
-	public void restartInternal()
+	@Override
+    public void restartInternal()
 	{
 		getWrapperLogger().info("restart internal " + getStringState());
 		if (_state == STATE_RUNNING || _state == STATE_STARTING || _state == STATE_RESTART_START)
@@ -2411,7 +2486,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		 * 
 		 * @see java.lang.Runnable#run()
 		 */
-		public void run()
+		@Override
+        public void run()
 		{
 			try
 			{
@@ -2477,7 +2553,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 						{
 							if (_actionTriggersRegex[i].contains(line))
 							{
-								Object obj = (TriggerAction) _actionsRegex.get(_actionTriggersRegex[i].getRegEx());
+								Object obj = _actionsRegex.get(_actionTriggersRegex[i].getRegEx());
 								if (obj instanceof TriggerAction)
 								{
 									TriggerAction action = (TriggerAction) obj;
@@ -2503,7 +2579,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 						{
 							if ("".equals(_missingActionTriggers[i]) || line.contains(_missingActionTriggers[i]))
 							{
-								Object obj = (TriggerAction) _missingActions.get(_missingActionTriggers[i]);
+								Object obj = _missingActions.get(_missingActionTriggers[i]);
 								if (obj instanceof TriggerAction)
 								{
 									TriggerAction action = (TriggerAction) obj;
@@ -2520,7 +2596,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 						{
 							if (_missingActionTriggersRegex[i].contains(line))
 							{
-								Object obj = (TriggerAction) _actionsRegex.get(_missingActionTriggersRegex[i].getRegEx());
+								Object obj = _actionsRegex.get(_missingActionTriggersRegex[i].getRegEx());
 								if (obj instanceof TriggerAction)
 								{
 									TriggerAction action = (TriggerAction) obj;
@@ -2547,7 +2623,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 					&& AbstractWrappedProcess.this._osProcess.isRunning())
 				AbstractWrappedProcess.this.executor.execute(new Runnable()
 				{
-					public void run()
+					@Override
+                    public void run()
 					{
 						if (AbstractWrappedProcess.this._state != STATE_RESTART_START && AbstractWrappedProcess.this._state != STATE_RESTART
 								&& AbstractWrappedProcess.this._state != STATE_RESTART_STOP
@@ -2580,37 +2657,44 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		}
 	}
 
-	public void addStateChangeListener(int state, StateChangeListener listener)
+	@Override
+    public void addStateChangeListener(int state, StateChangeListener listener)
 	{
 		_listeners.put(state, listener);
 	}
 
-	public void addStateChangeListener(StateChangeListener listener)
+	@Override
+    public void addStateChangeListener(StateChangeListener listener)
 	{
 		_listeners.put(999, listener);
 	}
 
-	public void removeStateChangeListener(StateChangeListener listener)
+	@Override
+    public void removeStateChangeListener(StateChangeListener listener)
 	{
 
 	}
 
-	public void removeStateChangeListener(int state)
+	@Override
+    public void removeStateChangeListener(int state)
 	{
 		_listeners.remove(state);
 	}
 
-	public int getRestartCount()
+	@Override
+    public int getRestartCount()
 	{
 		return _restartCount;
 	}
 
-	public String getStringState()
+	@Override
+    public String getStringState()
 	{
 		return getStringState(_state);
 	}
 
-	public String getName()
+	@Override
+    public String getName()
 	{
 		String result = "";
 		if (_config == null)
@@ -2635,29 +2719,34 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 
 	}
 
-	public OutputStream getOutputStream()
+	@Override
+    public OutputStream getOutputStream()
 	{
 		if (_osProcess != null)
 			return _osProcess.getOutputStream();
 		return null;
 	}
 
-	public Date getAppStarted()
+	@Override
+    public Date getAppStarted()
 	{
 		return _appStarted;
 	}
 
-	public Date getAppStopped()
+	@Override
+    public Date getAppStopped()
 	{
 		return _appStopped;
 	}
 
-	public Date getWrapperStarted()
+	@Override
+    public Date getWrapperStarted()
 	{
 		return _wrapperStarted;
 	}
 
-	public int getAppThreads()
+	@Override
+    public int getAppThreads()
 	{
 		if (_osProcess != null)
 			return _osProcess.getCurrentThreads();
@@ -2665,7 +2754,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return -1;
 	}
 
-	public long getAppMemory()
+	@Override
+    public long getAppMemory()
 	{
 		if (_osProcess != null)
 			return _osProcess.getCurrentVirtualMemory();
@@ -2673,7 +2763,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return -1;
 	}
 
-	public int getAppCpu()
+	@Override
+    public int getAppCpu()
 	{
 		if (_osProcess != null)
 			return _osProcess.getCurrentCpu();
@@ -2681,7 +2772,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return -1;
 	}
 
-	public int getAppHandles()
+	@Override
+    public int getAppHandles()
 	{
 		if (_osProcess != null)
 			return _osProcess.getCurrentHandles();
@@ -2689,34 +2781,40 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return -1;
 	}
 
-	public void addTriggerListener(TriggerListener listener)
+	@Override
+    public void addTriggerListener(TriggerListener listener)
 	{
 		// TODO ;
 	}
 
-	public int getWrapperPid()
+	@Override
+    public int getWrapperPid()
 	{
 		return OperatingSystem.instance().processManagerInstance().currentProcessId();
 	}
 
-	public boolean isTimerActive()
+	@Override
+    public boolean isTimerActive()
 	{
 		return (_timer != null) && _timer.isTriggered();
 	}
 
-	public boolean isConditionActive()
+	@Override
+    public boolean isConditionActive()
 	{
 		return (_condition != null) && _condition.isTriggered();
 	}
 
-	public void threadDump()
+	@Override
+    public void threadDump()
 	{
 		if (_osProcess != null && this instanceof WrappedJavaProcess && _osProcess.isRunning())
 			((WrappedJavaProcess) this).requestThreadDump();
 
 	}
 
-	public void wrapperThreadDump()
+	@Override
+    public void wrapperThreadDump()
 	{
 		Message m = new Message(Constants.WRAPPER_MSG_THREAD_DUMP, null);
 		Action a = ActionFactory.getAction(m);
@@ -2734,13 +2832,15 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		}
 	}
 
-	public void stopTimerCondition()
+	@Override
+    public void stopTimerCondition()
 	{
 		stopTimer();
 		stopCondition();
 	}
 
-	public boolean isOSProcessRunning()
+	@Override
+    public boolean isOSProcessRunning()
 	{
 		if (_osProcess == null)
 			return false;
@@ -2748,7 +2848,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return _osProcess.isRunning();
 	}
 
-	public int getTotalRestartCount()
+	@Override
+    public int getTotalRestartCount()
 	{
 		return _totalRestartCount;
 	}
@@ -2758,7 +2859,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		return _config.getBoolean("wrapper.service", false);
 	}
 
-	public String getType()
+	@Override
+    public String getType()
 	{
 		if (_config.getBoolean("wrapper.service", false))
 			return "Service";
@@ -2768,51 +2870,60 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return "Process";
 	}
 
-	public void shutdown()
+	@Override
+    public void shutdown()
 	{
 		setState(STATE_SHUTDOWN);
 	}
 
-	public void osProcessTerminated()
+	@Override
+    public void osProcessTerminated()
 	{
 		Process process = _osProcess;
 		if (process != null)
 			_exitCode = process.getExitCode();
 	}
 
-	public boolean isHaltWrapperOnApp()
+	@Override
+    public boolean isHaltWrapperOnApp()
 	{
 		return _haltWrapperOnApp;
 	}
 
-	public boolean isHaltAppOnWrapper()
+	@Override
+    public boolean isHaltAppOnWrapper()
 	{
 		return _haltAppOnWrapper;
 	}
 
-	public void setExiting()
+	@Override
+    public void setExiting()
 	{
 		_exiting = true;
 	}
 
-	public boolean isExiting()
+	@Override
+    public boolean isExiting()
 	{
 		return _exiting;
 	}
 
-	public TrayIconProxy getTrayIcon()
+	@Override
+    public TrayIconProxy getTrayIcon()
 	{
 		return _trayIconMessages;
 	}
 
-	public String[][] getTrayIconMessages()
+	@Override
+    public String[][] getTrayIconMessages()
 	{
 		if (_trayIconMessages == null)
 			return null;
 		return _trayIconMessages.toArrayAndClear();
 	}
 
-	public void stopWrapper()
+	@Override
+    public void stopWrapper()
 	{
 		if (_haltAppOnWrapper)
 			stop();
@@ -2828,17 +2939,20 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		System.exit(0);
 	}
 
-	public boolean hasOutput()
+	@Override
+    public boolean hasOutput()
 	{
 		return getOutputStream() != null;
 	}
 
-	public void writeOutput(String txt)
+	@Override
+    public void writeOutput(String txt)
 	{
 		((PrintStream) getOutputStream()).println(txt);
 	}
 
-	public void setInquireResponse(String s)
+	@Override
+    public void setInquireResponse(String s)
 	{
 		if (_trayIconMessages != null)
 		{
@@ -2847,7 +2961,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		}
 	}
 
-	public String getInquireMessage()
+	@Override
+    public String getInquireMessage()
 	{
 		if (_trayIconMessages != null)
 			return _trayIconMessages._inquireMessage;
@@ -2855,7 +2970,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return null;
 	}
 
-	public void setService(Object service)
+	@Override
+    public void setService(Object service)
 	{
 		_service = service;
 	}
@@ -2865,19 +2981,22 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		return _service;
 	}
 
-	public void setProperty(String key, String value)
+	@Override
+    public void setProperty(String key, String value)
 	{
 		getWrapperLogger().info("set property " + key + " " + value);
 		_localConfiguration.setProperty(key, value);
 	}
 
-	public void resetCache()
+	@Override
+    public void resetCache()
 	{
 		getWrapperLogger().info("reset cache ");
 		_cache = null;
 	}
 
-	public long getMaxStartTime()
+	@Override
+    public long getMaxStartTime()
 	{
 		if (_config == null)
 			return 0;
