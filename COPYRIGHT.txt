@@ -1,0 +1,4 @@
+This  software is  is licensed  under  the GNU  Lesser General  Public
+License version 2.1 or later.
+
+For legalese details, see LICENSE.txt.
