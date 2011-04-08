@@ -1075,6 +1075,10 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		}
 	}
 
+    private boolean isMacPlatform() {
+        return System.getProperty("os.name").toLowerCase().contains("mac");
+    }
+
 	/**
 	 * Gets the console handler.
 	 * 
@@ -1086,8 +1090,10 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			return _consoleHandler;
 
 		String consoleLogLevel = _config.getString("wrapper.console.loglevel", "INFO");
-		if (consoleLogLevel.equals("NONE"))
-			return null;
+		if (consoleLogLevel.equals("NONE")) {
+            if (isMacPlatform()) consoleLogLevel = "STATUS";
+            else return null;
+        }
 
 		// per default java console handler uses err -> use out instead
 		_consoleHandler = new ConsoleHandler()
@@ -1183,8 +1189,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 		}
 		if (getFileHandler() != null)
 			_appLogger.addHandler(getFileHandler());
-        // if (getConsoleHandler() != null)
-        // _appLogger.addHandler(getConsoleHandler());
+        if (getConsoleHandler() != null)
+            _appLogger.addHandler(getConsoleHandler());
 		_appLogger.setLevel(Level.ALL);
 		return _appLogger;
 	}
@@ -2152,8 +2158,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			_controller.setLogger(_appLogger);
 		if (getFileHandler() != null)
 			_wrapperLogger.addHandler(getFileHandler());
-        // if (getConsoleHandler() != null)
-        // _wrapperLogger.addHandler(getConsoleHandler());
+        if (getConsoleHandler() != null)
+            _wrapperLogger.addHandler(getConsoleHandler());
 		return _wrapperLogger;
 	}
 
