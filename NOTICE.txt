@@ -2,3 +2,37 @@ This product includes software developed by "Neo Technology,"
 Network Engine for Objects in Lund AB (http://neotechnology.com).
 
 For licensing information, see COPYRIGHT.txt and LICENSE.txt.
+
+
+Third party libraries
+---------------------
+
+Bundled  libraries are  licenced according  to the  following listing,
+full license texts are found in LICENSES.txt.
+
+The Apache Software License, Version 2.0:
+ Apache Commons:
+  Commons BeanUtils, Commons BeanUtils Core, Commons Collections, Commons IO,
+  Commons Configuration, Commons Digester, Commons Lang, Commons Logging,
+ Apache Log4j,
+ Apache Velocity,
+ Apache Jackrabbit WebDAV API,
+ Quartz enterprise job scheduler,
+ YodaTime,
+ Groovy,
+ Netty,
+ SNMP4J,
+
+MIT License:
+ SLF4J API Module, SLF4J Log4j-12 Binding, SLF4J JDK1.4 Logging Binding,
+ SLF4J Jakarta Commons Logging Binding, SLF4J System out Binding,
+
+BSD licence:
+ ASM:   ASM Core, ASM Tree, ASM Commons, ASM Util, ASM Analysis,
+ JLine,
+ JGoodies Forms,
+
+GNU Lesser General Public License:
+ GlazedLists,
+ JRexx,
+ Abeille Forms Designer,
