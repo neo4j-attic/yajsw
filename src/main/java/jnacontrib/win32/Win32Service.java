@@ -430,13 +430,17 @@ abstract public class Win32Service
 		{
 			service = advapi32.OpenService(serviceManager, serviceName, WINNT.GENERIC_EXECUTE);
 			// System.out.println("service.start() service "+service);
-
 			if (service != null)
 			{
 				success = advapi32.StartService(service, 0, null);
 				// System.out.println("service.start() StartService "+success);
 				advapi32.CloseServiceHandle(service);
 			}
+			else
+			{
+			    System.out.println( "Service " + serviceName + " unavailable, not installed?" );
+			}
+			
 			advapi32.CloseServiceHandle(serviceManager);
 		}
 
@@ -469,6 +473,11 @@ abstract public class Win32Service
 				success = advapi32.ControlService(service, WINSVC.SERVICE_CONTROL_STOP, serviceStatus);
 				advapi32.CloseServiceHandle(service);
 			}
+			else
+			{
+			    System.out.println( "Service " + serviceName + " unavailable, not installed?" );
+			}
+			
 			advapi32.CloseServiceHandle(serviceManager);
 		}
 
