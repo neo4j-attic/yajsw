@@ -955,10 +955,16 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
     {
         String pidFileName = _config.getString( "wrapper.pidfile" );
         File pidFile = new File( pidFileName );
-        return new File( pidFile.getParentFile(), "neo4j-server.java.status" );
+        return new File( pidFile.getParentFile(), fileNameWithoutExtension( pidFile.getName() ) + ".java.status" );
     }
 
-	abstract void postStart();
+	private String fileNameWithoutExtension( String fileName )
+    {
+	    int dotIndex = fileName.lastIndexOf( '.' );
+	    return dotIndex == -1 ? fileName : fileName.substring( 0, dotIndex );
+    }
+
+    abstract void postStart();
 
 	void configProcess()
 	{
