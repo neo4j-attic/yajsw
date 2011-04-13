@@ -1323,7 +1323,7 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 				;
 			}
 		}
-		pattern += "\n";
+		pattern += System.getProperty( "line.separator" );
 		formatter.setLogPattern(pattern);
 		return formatter;
 	}
