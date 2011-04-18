@@ -48,16 +48,15 @@
 
 package com.caucho.hessian4.io;
 
-import com.caucho.hessian4.util.IdentityIntMap;
-
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
 import org.jboss.netty.channel.ChannelFuture;
-import org.rzo.netty.ahessian.io.InputStreamBuffer;
 import org.rzo.netty.ahessian.io.OutputStreamBuffer;
+
+import com.caucho.hessian4.util.IdentityIntMap;
 
 /**
  * Output stream for Hessian 2 requests.

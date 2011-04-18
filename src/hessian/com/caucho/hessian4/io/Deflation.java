@@ -48,12 +48,11 @@
 
 package com.caucho.hessian4.io;
 
-import java.util.*;
-import java.util.zip.*;
-
-import java.io.*;
-
-import com.caucho.hessian4.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 
 public class Deflation extends HessianEnvelope {
   public Deflation()

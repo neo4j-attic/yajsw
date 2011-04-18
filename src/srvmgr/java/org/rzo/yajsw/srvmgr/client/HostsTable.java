@@ -1,19 +1,12 @@
 package org.rzo.yajsw.srvmgr.client;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.rzo.yajsw.os.ServiceInfo;
-import org.rzo.yajsw.srvmgr.server.ServiceManagerServer;
 import org.rzo.yajsw.util.BeanTableFormat;
 import org.rzo.yajsw.util.ObservableList;
 import org.rzo.yajsw.util.ObservableObject;

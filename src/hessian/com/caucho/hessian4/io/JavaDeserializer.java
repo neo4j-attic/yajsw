@@ -56,8 +56,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
-import java.util.logging.*;
-
 
 /**
  * Serializing an object for known object types.

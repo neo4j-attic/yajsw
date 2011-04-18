@@ -2164,8 +2164,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			_controller.setLogger(_appLogger);
 		if (getFileHandler() != null)
 			_wrapperLogger.addHandler(getFileHandler());
-        if (getConsoleHandler() != null)
-            _wrapperLogger.addHandler(getConsoleHandler());
+//        if (getConsoleHandler() != null)
+//            _wrapperLogger.addHandler(getConsoleHandler());
 		return _wrapperLogger;
 	}
 

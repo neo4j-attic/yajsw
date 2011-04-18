@@ -48,8 +48,10 @@
 
 package com.caucho.hessian4.io;
 
-import java.util.logging.*;
-import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.caucho.hessian4.util.HessianFreeList;
 

@@ -48,7 +48,7 @@
 
 package com.caucho.hessian4.io;
 
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 public class EnvelopeFactory
 {

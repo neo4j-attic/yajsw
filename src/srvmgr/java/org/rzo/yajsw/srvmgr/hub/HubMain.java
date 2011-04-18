@@ -1,24 +1,13 @@
 package org.rzo.yajsw.srvmgr.hub;
 
 
-import org.rzo.netty.ahessian.rpc.client.HessianProxyFactory;
-import org.rzo.netty.mcast.discovery.DiscoveryClient;
-import org.rzo.netty.mcast.discovery.DiscoveryListener;
-import org.rzo.netty.mcast.discovery.DiscoveryServer;
-
-import java.awt.BorderLayout;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,35 +18,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Vector;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.swing.AbstractAction;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
-import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
-import org.jboss.netty.channel.socket.oio.OioClientSocketChannelFactory;
-
+import org.rzo.netty.ahessian.rpc.client.HessianProxyFactory;
+import org.rzo.netty.mcast.discovery.DiscoveryClient;
+import org.rzo.netty.mcast.discovery.DiscoveryListener;
 import org.rzo.yajsw.os.ServiceInfo;
 import org.rzo.yajsw.os.ServiceInfoImpl;
 import org.rzo.yajsw.srvmgr.client.AsyncServiceManagerServer;
 import org.rzo.yajsw.srvmgr.client.Host;
 import org.rzo.yajsw.srvmgr.client.RPCClientPipelineFactory;
-import org.rzo.yajsw.srvmgr.server.ServiceManagerServer;
 
 public class HubMain
 {

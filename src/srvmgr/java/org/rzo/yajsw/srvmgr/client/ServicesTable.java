@@ -1,8 +1,5 @@
 package org.rzo.yajsw.srvmgr.client;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,21 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 
-import org.rzo.netty.ahessian.rpc.client.AsyncHessianProxy;
 import org.rzo.yajsw.os.ServiceInfo;
 import org.rzo.yajsw.os.ServiceInfoImpl;
-import org.rzo.yajsw.srvmgr.server.ServiceManagerServer;
 import org.rzo.yajsw.util.BeanTableFormat;
 import org.rzo.yajsw.util.ObservableList;
 import org.rzo.yajsw.util.ObservableObject;
@@ -35,7 +24,6 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.ObservableElementList;
 import ca.odell.glazedlists.SortedList;
-import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.EventSelectionModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;

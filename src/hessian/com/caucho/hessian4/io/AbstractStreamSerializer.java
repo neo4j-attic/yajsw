@@ -48,15 +48,8 @@
 
 package com.caucho.hessian4.io;
 
-import java.io.InputStream;
 import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.InputStream;
 
 /**
  * Serializing an object containing a byte stream.

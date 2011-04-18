@@ -48,7 +48,7 @@
 
 package com.caucho.hessian4.io;
 
-import java.io.*;
+import java.io.IOException;
 
 /**
  * Factory class for wrapping and unwrapping hessian streams.

@@ -48,15 +48,10 @@
 
 package com.caucho.hessian4.io;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import java.util.logging.*;
-
-import com.caucho.hessian4.HessianException;
 
 /**
  * Proxy for a java annotation for known object types.

@@ -2,10 +2,8 @@ package org.rzo.yajsw.util;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.rzo.yajsw.os.ServiceInfo;
 
 public class ObservableObject implements Comparable<ObservableObject>
 {

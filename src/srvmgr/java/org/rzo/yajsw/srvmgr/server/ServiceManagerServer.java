@@ -1,9 +1,7 @@
 package org.rzo.yajsw.srvmgr.server;
 
-import java.util.List;
 import java.util.Map;
 
-import org.rzo.yajsw.os.Service;
 import org.rzo.yajsw.os.ServiceInfo;
 
 public interface ServiceManagerServer

@@ -2,9 +2,6 @@ package org.rzo.yajsw.srvmgr.server.ms.win;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,18 +20,15 @@ import org.apache.commons.configuration.Configuration;
 import org.rzo.yajsw.Constants;
 import org.rzo.yajsw.config.YajswConfigurationImpl;
 import org.rzo.yajsw.os.OperatingSystem;
-import org.rzo.yajsw.os.Service;
 import org.rzo.yajsw.os.Process;
+import org.rzo.yajsw.os.Service;
 import org.rzo.yajsw.os.ServiceInfo;
 import org.rzo.yajsw.os.ServiceInfoImpl;
 import org.rzo.yajsw.os.ms.win.w32.WindowsXPProcess;
-import org.rzo.yajsw.os.ms.win.w32.WindowsXPProcess.MyKernel32.PROCESSENTRY32;
 import org.rzo.yajsw.srvmgr.server.ServiceManagerServer;
 import org.rzo.yajsw.tools.JCLParser;
 import org.rzo.yajsw.wrapper.AbstractWrappedProcessMBean;
 import org.rzo.yajsw.wrapper.WrappedService;
-
-import com.sun.jna.Native;
 
 public class WinServiceManagerServer implements ServiceManagerServer
 {

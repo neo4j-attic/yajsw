@@ -17,13 +17,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jnacontrib.jna.Advapi32;
-import jnacontrib.jna.WINERROR;
-import jnacontrib.jna.WINNT;
-import jnacontrib.jna.WINSVC;
 import jnacontrib.jna.Advapi32.ENUM_SERVICE_STATUS_PROCESS;
 import jnacontrib.jna.Advapi32.QUERY_SERVICE_CONFIG;
 import jnacontrib.jna.Advapi32.SERVICE_DESCRIPTION;
 import jnacontrib.jna.Advapi32.SERVICE_STATUS_PROCESS;
+import jnacontrib.jna.WINERROR;
+import jnacontrib.jna.WINNT;
+import jnacontrib.jna.WINSVC;
 
 import org.rzo.yajsw.os.Service;
 import org.rzo.yajsw.os.ServiceInfo;

@@ -15,7 +15,6 @@ import java.util.jar.Manifest;
 
 import org.rzo.yajsw.Constants;
 import org.rzo.yajsw.app.WrapperJVMMain;
-import org.rzo.yajsw.wrapper.AbstractWrappedProcess;
 
 public class WrapperLoader
 {

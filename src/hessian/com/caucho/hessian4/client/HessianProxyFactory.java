@@ -48,16 +48,6 @@
 
 package com.caucho.hessian4.client;
 
-import com.caucho.hessian4.io.*;
-import com.caucho.hessian4.services.client.ServiceProxyFactory;
-
-//import javax.naming.Context;
-//import javax.naming.Name;
-//import javax.naming.NamingException;
-//import javax.naming.RefAddr;
-//import javax.naming.Reference;
-//import javax.naming.spi.ObjectFactory;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -65,11 +55,19 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.HttpURLConnection;
-import java.net.URLConnection;
-import java.util.Hashtable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.caucho.hessian4.io.AbstractHessianInput;
+import com.caucho.hessian4.io.AbstractHessianOutput;
+import com.caucho.hessian4.io.Hessian2Input;
+import com.caucho.hessian4.io.Hessian2Output;
+import com.caucho.hessian4.io.HessianDebugInputStream;
+import com.caucho.hessian4.io.HessianInput;
+import com.caucho.hessian4.io.HessianOutput;
+import com.caucho.hessian4.io.HessianRemoteObject;
+import com.caucho.hessian4.io.HessianRemoteResolver;
+import com.caucho.hessian4.io.SerializerFactory;
+import com.caucho.hessian4.services.client.ServiceProxyFactory;
 
 /**
  * Factory for creating Hessian client stubs.  The returned stub will

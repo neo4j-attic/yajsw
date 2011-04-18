@@ -1,11 +1,5 @@
 package org.rzo.yajsw.ws;
 
-import com.jeta.forms.components.border.TitledBorderBottom;
-import com.jeta.forms.components.border.TitledBorderSide;
-import com.jeta.forms.components.separator.TitledSeparator;
-import com.jeta.open.i18n.I18NUtils;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -13,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -25,6 +20,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import com.jeta.forms.components.border.TitledBorderBottom;
+import com.jeta.forms.components.border.TitledBorderSide;
+import com.jeta.forms.components.separator.TitledSeparator;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 
 public class WSForm extends JPanel

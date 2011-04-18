@@ -48,9 +48,6 @@
 
 package com.caucho.hessian4.io;
 
-import java.io.IOException;
-//import javax.management.ObjectName;
-
 import com.caucho.hessian4.HessianException;
 
 /**

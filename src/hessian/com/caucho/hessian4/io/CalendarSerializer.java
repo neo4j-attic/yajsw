@@ -48,7 +48,6 @@
 
 package com.caucho.hessian4.io;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 /**

@@ -4,22 +4,15 @@ import static org.jboss.netty.channel.Channels.pipeline;
 
 import java.util.concurrent.Executor;
 
-import org.rzo.netty.ahessian.rpc.client.HessianProxyFactory;
-import org.rzo.netty.ahessian.rpc.client.ReconnectHandler;
-import org.rzo.netty.ahessian.rpc.message.HessianRPCCallEncoder;
-import org.rzo.netty.ahessian.rpc.message.HessianRPCReplyDecoder;
-import org.rzo.netty.ahessian.rpc.message.OutputProducer;
-import org.rzo.netty.ahessian.auth.ClientAuthFilter;
-import org.rzo.netty.ahessian.auth.EncryptedAuthToken;
-import org.rzo.netty.ahessian.auth.ServerAuthFilter;
+import org.jboss.netty.channel.ChannelPipeline;
+import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.rzo.netty.ahessian.io.InputStreamDecoder;
 import org.rzo.netty.ahessian.io.OutputStreamEncoder;
 import org.rzo.netty.ahessian.io.PullInputStreamConsumer;
-import org.rzo.netty.ahessian.log.OutLogger;
-import org.rzo.netty.ahessian.session.MixinPipeline;
-
-import org.jboss.netty.channel.ChannelPipeline;
-import org.jboss.netty.channel.ChannelPipelineFactory;
+import org.rzo.netty.ahessian.rpc.client.HessianProxyFactory;
+import org.rzo.netty.ahessian.rpc.message.HessianRPCCallEncoder;
+import org.rzo.netty.ahessian.rpc.message.HessianRPCReplyDecoder;
+import org.rzo.netty.ahessian.rpc.message.OutputProducer;
 
 
 

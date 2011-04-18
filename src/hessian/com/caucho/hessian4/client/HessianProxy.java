@@ -48,18 +48,28 @@
 
 package com.caucho.hessian4.client;
 
-import com.caucho.hessian4.io.*;
-import com.caucho.hessian4.services.server.*;
-
-import java.io.*;
-import java.util.logging.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.io.Writer;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.WeakHashMap;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.caucho.hessian4.io.AbstractHessianInput;
+import com.caucho.hessian4.io.AbstractHessianOutput;
+import com.caucho.hessian4.io.HessianDebugInputStream;
+import com.caucho.hessian4.io.HessianDebugOutputStream;
+import com.caucho.hessian4.io.HessianProtocolException;
+import com.caucho.hessian4.io.HessianRemote;
+import com.caucho.hessian4.services.server.AbstractSkeleton;
 
 /**
  * Proxy implementation for Hessian clients.  Applications will generally

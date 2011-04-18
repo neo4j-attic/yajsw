@@ -27,19 +27,15 @@
 
 package secmgr.manager;
 
-import static java.lang.System.err;
 import static java.lang.System.out;
 
 import java.lang.reflect.Field;
-
 import java.net.URL;
-
-import java.security.AccessController;
 import java.security.AccessControlContext;
+import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.Permission;
 import java.security.ProtectionDomain;
-
 import java.util.ArrayList;
 
 /**
