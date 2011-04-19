@@ -55,6 +55,7 @@ public interface Constants
 	public static final int		DEFAULT_JVM_EXIT_TIMEOUT			= 15;
 
 	public static final String	DEFAULT_DAEMON_RUN_LEVEL_DIR		= "rc5.d";
+    public static final String  DEFAULT_DAEMON_RUN_LEVEL_DIR_DEBIAN = "rc2.d";
 	public static final String	DEFAULT_DAEMON_TEMPLATE				= "conf/daemon.vm";
 	public static final String	DEFAULT_DAEMON_DIR					= "/etc/init.d";
 	public static final String	DEFAULT_DAEMON_PID_DIR				= "/var/run";

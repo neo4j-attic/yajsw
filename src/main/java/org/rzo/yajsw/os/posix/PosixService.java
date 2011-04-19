@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -183,6 +185,15 @@ public class PosixService extends AbstractService implements Constants
 		_statusCmd[8] = "-qx";
 
 		String defaultRunLevelDir = _daemonDir + "/" + DEFAULT_DAEMON_RUN_LEVEL_DIR;
+        if ( !new File( defaultRunLevelDir ).exists() )
+        {
+            // If this rc layout doesn't exist try the layout of debian/fedora systems
+            // For debian derivatives (f.ex. Ubuntu) put them in rc2.d
+            // For others, put them in rc5.d
+            defaultRunLevelDir = "/etc/" + (isDebian() ?
+                    DEFAULT_DAEMON_RUN_LEVEL_DIR_DEBIAN : DEFAULT_DAEMON_RUN_LEVEL_DIR);
+        }
+
 		String runLevelDir = _config.getString("wrapper.daemon.run_level_dir", defaultRunLevelDir);
 
 		_updateRcParser = new UpdateRcParser(_config.getString("wrapper.daemon.update_rc", null), runLevelDir, getName());
@@ -192,7 +203,34 @@ public class PosixService extends AbstractService implements Constants
 
 	}
 
-	protected String getDefaultDaemonDir()
+	private boolean isDebian()
+    {
+	    try
+        {
+            String output = readOutputFromProcess( "uname", "-a" ).toLowerCase();
+            return output.contains( "ubuntu" ) || output.contains( "debian" );
+        }
+        catch ( IOException e )
+        {
+            return false;
+        }
+    }
+	
+	private static String readOutputFromProcess( String... processToRun ) throws IOException
+	{
+        Process process = Runtime.getRuntime().exec( processToRun );
+        InputStream in = process.getInputStream();
+        BufferedReader reader = new BufferedReader( new InputStreamReader( in ) );
+        StringBuilder result = new StringBuilder();
+        String line = null;
+        while ( (line = reader.readLine()) != null )
+        {
+            result.append( result.length() > 0 ? System.getProperty( "line.separator" ) : "" ).append( line );
+        }
+        return result.toString();
+	}
+
+    protected String getDefaultDaemonDir()
 	{
 		return Constants.DEFAULT_DAEMON_DIR;
 	}
