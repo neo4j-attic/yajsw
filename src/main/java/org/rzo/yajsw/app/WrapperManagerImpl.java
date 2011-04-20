@@ -31,7 +31,6 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.management.MBeanServer;
@@ -57,7 +56,6 @@ import org.rzo.yajsw.action.ActionFactory;
 import org.rzo.yajsw.config.YajswConfiguration;
 import org.rzo.yajsw.config.YajswConfigurationImpl;
 import org.rzo.yajsw.controller.Message;
-import org.rzo.yajsw.controller.jvm.JVMController;
 import org.rzo.yajsw.controller.jvm.MessageDecoder;
 import org.rzo.yajsw.controller.jvm.MessageEncoder;
 import org.rzo.yajsw.io.CyclicBufferFileInputStream;
@@ -65,7 +63,6 @@ import org.rzo.yajsw.io.CyclicBufferFilePrintStream;
 import org.rzo.yajsw.io.TeeInputStream;
 import org.rzo.yajsw.io.TeeOutputStream;
 import org.rzo.yajsw.log.MyLogger;
-import org.rzo.yajsw.nettyutils.LoggingFilter;
 import org.rzo.yajsw.script.Script;
 import org.rzo.yajsw.script.ScriptFactory;
 import org.rzo.yajsw.util.Cycler;
@@ -86,7 +83,7 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	boolean						_debug				= false;
 
 	/** The log. */
-	Logger						log					= Logger.getLogger(JVMController.class.getName());
+    // Logger log = Logger.getLogger( JVMController.class.getName() );
 
 	/** The _started. */
 	volatile boolean			_started			= false;
@@ -157,7 +154,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * @see org.rzo.yajsw.WrapperManager#init(java.lang.String[],
 	 * java.lang.ClassLoader)
 	 */
-	public void init(String[] args, ClassLoader wrapperClassLoader)
+	@Override
+    public void init(String[] args, ClassLoader wrapperClassLoader)
 	{
 		/*
 		 * System.out.println(Scheduler.class.getClassLoader());
@@ -166,7 +164,7 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		 * (InterruptedException e1) { // TODO Auto-generated catch block
 		 * e1.printStackTrace(); }
 		 */
-		System.out.println("initializing wrapped process");
+        // System.out.println("initializing wrapped process");
 		ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
 		Thread.currentThread().setContextClassLoader(wrapperClassLoader);
 		instance = this;
@@ -186,7 +184,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 			{
 				Logger logger = new MyLogger();
 				logger.addHandler(new ConsoleHandler());
-				System.out.println("wrapped process: executing pre script " + preScript);
+                // System.out.println("wrapped process: executing pre script " +
+                // preScript);
 				Script script = ScriptFactory.createScript(preScript, "", null, new String[0], null, 0);
 				if (script != null)
 					script.execute();
@@ -248,14 +247,14 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 			File f = new File(stopConfig);
 			_externalStop = true;
 		}
-		System.out.println("external stop " + _externalStop);
+        // System.out.println("external stop " + _externalStop);
 
 		exitOnMainTerminate = config.getInt("wrapper.exit_on_main_terminate", DEFAULT_EXIT_ON_MAIN_TERMINATE);
 
 		exitOnException = config.getInt("wrapper.exit_on_main_exception", DEFAULT_EXIT_ON_MAIN_EXCEPTION);
 
-		mainMethodArgs = getAppParam((Configuration) config);
-		setConfiguration((Configuration) config);
+		mainMethodArgs = getAppParam(config);
+		setConfiguration(config);
 		if (_config.getBoolean("wrapper.java.jmx", false))
 			registerMBean(config);
 
@@ -278,7 +277,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		{
 			Runtime.getRuntime().addShutdownHook(new Thread()
 			{
-				public void run()
+				@Override
+                public void run()
 				{
 					executeShutdownScript();
 				}
@@ -323,7 +323,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * 
 	 * @see org.rzo.yajsw.WrapperManager#getMainMethod()
 	 */
-	public Method getMainMethod()
+	@Override
+    public Method getMainMethod()
 	{
 		return mainMethod;
 	}
@@ -333,7 +334,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * 
 	 * @see org.rzo.yajsw.WrapperManager#getMainMethodArgs()
 	 */
-	public Object[] getMainMethodArgs()
+	@Override
+    public Object[] getMainMethodArgs()
 	{
 		return mainMethodArgs;
 	}
@@ -343,14 +345,16 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * 
 	 * @see org.rzo.yajsw.WrapperManager#isExitOnMainTerminate()
 	 */
-	public int getExitOnMainTerminate()
+	@Override
+    public int getExitOnMainTerminate()
 	{
 		if (_debug)
 			System.out.println("exit on main terminate " + exitOnMainTerminate);
 		return exitOnMainTerminate;
 	}
 
-	public int getExitOnException()
+	@Override
+    public int getExitOnException()
 	{
 		if (_debug)
 			System.out.println("exit on main exception " + exitOnException);
@@ -487,8 +491,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 
 		try
 		{
-			PrintStream wrapperOut = (PrintStream) new CyclicBufferFilePrintStream(fOut);
-			TeeOutputStream newOut = (TeeOutputStream) new TeeOutputStream();
+			PrintStream wrapperOut = new CyclicBufferFilePrintStream(fOut);
+			TeeOutputStream newOut = new TeeOutputStream();
 			newOut.connect(wrapperOut);
 			// pipe output to console only if it is visible
 			if (visible)
@@ -504,8 +508,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		try
 		{
 
-			PrintStream wrapperErr = (PrintStream) new CyclicBufferFilePrintStream(fErr);
-			TeeOutputStream newErr = (TeeOutputStream) new TeeOutputStream();
+			PrintStream wrapperErr = new CyclicBufferFilePrintStream(fErr);
+			TeeOutputStream newErr = new TeeOutputStream();
 			newErr.connect(wrapperErr);
 			// pipe output to console only if it is visible
 			if (visible)
@@ -521,7 +525,7 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		try
 		{
 			CyclicBufferFileInputStream wrapperIn = new CyclicBufferFileInputStream(fIn);
-			TeeInputStream newIn = (TeeInputStream) new TeeInputStream();
+			TeeInputStream newIn = new TeeInputStream();
 			newIn.connect(wrapperIn);
 			newIn.connect(System.in);
 			System.setIn(newIn);
@@ -623,7 +627,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * 
 	 * @see org.rzo.yajsw.WrapperManager#start()
 	 */
-	public void start()
+	@Override
+    public void start()
 	{
 
 		connector = new ClientBootstrap(new OioClientSocketChannelFactory(
@@ -632,8 +637,9 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		// add logging
 		if (_debug)
 		{
-			connector.getPipeline().addLast("logger", new LoggingFilter(log, "app"));
-			log.info("Logging ON");
+            // connector.getPipeline().addLast("logger", new LoggingFilter(log,
+            // "app"));
+            // log.info("Logging ON");
 		}
 
 		// add a framer to split incoming bytes to message chunks
@@ -650,7 +656,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 				{
 					long	start	= System.currentTimeMillis();
 
-					public void run()
+					@Override
+                    public void run()
 					{
 						if (_session != null && _session.isConnected() && !_stopping && !_appearHanging)
 						{
@@ -703,8 +710,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		// try connecting, if we could not sleep then retry
 		while (!_started)
 		{
-			if (_debug)
-				log.fine("connecting to port " + _port);
+            // if (_debug)
+            // log.fine("connecting to port " + _port);
 			final ChannelFuture future1 = connector.connect();
 			try
 			{
@@ -741,8 +748,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 			else
 				try
 				{
-					if (_debug)
-						log.fine("connection failed -> sleep then retry");
+                    // if (_debug)
+                    // log.fine("connection failed -> sleep then retry");
 					_started = false;
 					Thread.sleep(5000);
 				}
@@ -781,7 +788,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 					System.out.println("try reconnect");
 				executor.execute(new Runnable()
 				{
-					public void run()
+					@Override
+                    public void run()
 					{
 						try
 						{
@@ -807,7 +815,7 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 			if (msg.getCode() == Constants.WRAPPER_MSG_STOP)
 				try
 				{
-					System.out.println("wrapper manager received stop command");
+                    // System.out.println("wrapper manager received stop command");
 					_stopping = true;
 					if (session != null)
 						session.close();
@@ -849,8 +857,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		@Override
 		public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) throws Exception
 		{
-			if (_debug)
-				log.log(Level.FINE, "exceptionCaught", e.getCause());
+            // if (_debug)
+            // log.log(Level.FINE, "exceptionCaught", e.getCause());
 
 		}
 
@@ -955,7 +963,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * 
 	 * @see org.rzo.yajsw.WrapperManager#stop()
 	 */
-	public void stop()
+	@Override
+    public void stop()
 	{
 		if (_session != null)
 			while (_session != null && !_stopping)
@@ -978,7 +987,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	/**
 	 * Stop timer.
 	 */
-	public void stopTimer()
+	@Override
+    public void stopTimer()
 	{
 		if (_session != null)
 			while (_session != null && !_stopping)
@@ -998,7 +1008,8 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	/**
 	 * Restart.
 	 */
-	public void restart()
+	@Override
+    public void restart()
 	{
 		if (_session != null)
 			while (_session != null && !_stopping)
@@ -1032,27 +1043,32 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 	 * 
 	 * @see org.rzo.yajsw.WrapperManager#getPid()
 	 */
-	public int getPid()
+	@Override
+    public int getPid()
 	{
 		return _myPid;
 	}
 
-	public boolean isControlledByWrapper()
+	@Override
+    public boolean isControlledByWrapper()
 	{
 		return _started;
 	}
 
-	public boolean isLaunchedAsService()
+	@Override
+    public boolean isLaunchedAsService()
 	{
 		return _config.getBoolean("wrapper.service", false);
 	}
 
-	public String getGroovyScript()
+	@Override
+    public String getGroovyScript()
 	{
 		return _groovyScript;
 	}
 
-	public void threadDump()
+	@Override
+    public void threadDump()
 	{
 		Message m = new Message(Constants.WRAPPER_MSG_THREAD_DUMP, null);
 		Action a = ActionFactory.getAction(m);
@@ -1083,17 +1099,20 @@ public class WrapperManagerImpl implements WrapperManager, Constants, WrapperMan
 		}
 	}
 
-	public boolean isAppearHanging()
+	@Override
+    public boolean isAppearHanging()
 	{
 		return _appearHanging;
 	}
 
-	public void setAppearHanging(boolean appearHanging)
+	@Override
+    public void setAppearHanging(boolean appearHanging)
 	{
 		_appearHanging = appearHanging;
 	}
 
-	public void reportServiceStartup()
+	@Override
+    public void reportServiceStartup()
 	{
 		boolean reported = false;
 		while (!reported && !_stopping)
