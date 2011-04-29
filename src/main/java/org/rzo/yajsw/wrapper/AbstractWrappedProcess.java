@@ -1189,13 +1189,12 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			_appLogger = new MyLogger();
 			updateAppLoggerName();
 			_appLogger.setUseParentHandlers(false);
-            // if (_controller != null)
-            // _controller.setLogger(_appLogger);
+            // if ( _controller != null ) _controller.setLogger( _appLogger );
 		}
 		if (getFileHandler() != null)
 			_appLogger.addHandler(getFileHandler());
-        if ( getConsoleHandler() != null )
-            _appLogger.addHandler( getConsoleHandler() );
+        // if ( getConsoleHandler() != null )
+        // _appLogger.addHandler( getConsoleHandler() );
 		_appLogger.setLevel(Level.ALL);
 		return _appLogger;
 	}
@@ -2163,8 +2162,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess, Constant
 			_controller.setLogger(_appLogger);
 		if (getFileHandler() != null)
 			_wrapperLogger.addHandler(getFileHandler());
-        // if ( getConsoleHandler() != null )
-        // _wrapperLogger.addHandler( getConsoleHandler() );
+        if ( getConsoleHandler() != null )
+            _wrapperLogger.addHandler( getConsoleHandler() );
 		return _wrapperLogger;
 	}
 
