@@ -7,80 +7,26 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>lib/core/commons</directory>
-      <outputDirectory>/</outputDirectory>
+      <directory>lib/core/</directory>
+      <outputDirectory>/core/</outputDirectory>
       <includes>
-        <include>*.jar</include>
+        <include>commons/**</include>
+        <include>groovy/**</include>
+        <include>jna/**</include>
+        <include>netty/**</include>
+        <include>regex/**</include>
+        <include>yajsw/**</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>lib/core/groovy</directory>
-      <outputDirectory>/</outputDirectory>
+      <directory>lib/extended/</directory>
+      <outputDirectory>/extended/</outputDirectory>
       <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/core/jna</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/core/netty</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/core/regex</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/core/yajsw</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/extended/quartz</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/extended/abeille</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/extended/jgoodies</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/extended/glazedlists</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>lib/extended/velocity</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>*.jar</include>
+        <include>quartz/**</include>
+        <include>abeille/**</include>
+        <include>jgoodies/**</include>
+        <include>glazedlists/**</include>
+        <include>velocity/**</include>
       </includes>
     </fileSet>
   </fileSets>
