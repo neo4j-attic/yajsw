@@ -20,7 +20,6 @@ Class-Path-Wrapper-Core:
  ./lib/core/regex/jrexx-1.1.1.jar
   
 Class-Path-Wrapper-Extended: 
- ./lib/extended/hessian/servlet-api.jar 
  ./lib/extended/glazedlists/glazedlists-1.8.0_java15.jar 
  ./lib/extended/glazedlists/commons-beanutils-1.8.2.jar 
  ./lib/extended/quartz/quartz-1.8.0.jar 

@@ -27,6 +27,7 @@
         <include>jgoodies/**</include>
         <include>glazedlists/**</include>
         <include>velocity/**</include>
+        <include>vfs-webdav/**</include>
       </includes>
     </fileSet>
   </fileSets>
