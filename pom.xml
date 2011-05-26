@@ -8,7 +8,7 @@
   </parent>
   <groupId>org.neo4j.3rdparty</groupId>
   <artifactId>yajsw-neo4j</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.4.M03</version>
   <name>Neo4j - YAJSW fork</name>
   <description>YAJSW fork to be used with Neo4j.</description>
   <url>http://components.neo4j.org/${project.artifactId}/${project.version}</url>
